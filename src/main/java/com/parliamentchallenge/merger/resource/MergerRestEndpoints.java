@@ -1,15 +1,11 @@
 package com.parliamentchallenge.merger.resource;
 
-import com.parliamentchallenge.merger.resource.model.Speech;
 import com.parliamentchallenge.merger.resource.model.SpeechesList;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestParamType;
-import org.apache.camel.processor.aggregate.AbstractListAggregationStrategy;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_QUERY;
@@ -58,25 +54,13 @@ class MergerRestEndpoints extends RouteBuilder {
                 .end();
 
         from("direct:split")
-                .split(xpath("/anforandelista/anforande"), new AbstractListAggregationStrategy<Object>() {
-                    @Override
-                    public void onCompletion(Exchange exchange) {
-                        super.onCompletion(exchange);
-                        List<Speech> body = (List<Speech>) exchange.getIn().getBody();
-                        exchange.getIn().setBody(new SpeechesList(body));
-                        exchange.getIn().setHeader(CONTENT_TYPE, APPLICATION_JSON);
-                    }
-
-                    @Override
-                    public Object getValue(Exchange exchange) {
-                        return exchange.getIn().getBody();
-                    }
-                })
+                .split(xpath("/anforandelista/anforande"), new CreateSpeechesListAggregationStrategy())
                 .parallelProcessing()
                 .enrich("direct:speaker", new CreateSpeechAggregationStrategy())
                 .end();
 
-        from("direct:speaker").routeId("parliament-api-speaker")
+        from("direct:speaker").
+                routeId("parliament-api-speaker")
                 .description("Get speaker from Parliament API")
                 .setHeader("intressent_id")
                 .xpath("/anforande/intressent_id/text()")
