@@ -1,0 +1,54 @@
+<anforandelista antal="2">
+    <anforande>
+        <dok_hangar_id>5049872</dok_hangar_id>
+        <dok_id>H70949</dok_id>
+        <dok_titel>Protokoll 2019/20:49 Onsdagen den 11 december</dok_titel>
+        <dok_rm>2019/20</dok_rm>
+        <dok_nummer>49</dok_nummer>
+        <dok_datum>2019-12-11</dok_datum>
+        <avsnittsrubrik>SPEECH_1</avsnittsrubrik>
+        <underrubrik></underrubrik>
+        <kammaraktivitet>ärendedebatt</kammaraktivitet>
+        <anforande_id>e1a9afb5-6b1c-ea11-912c-901b0e9b71a8</anforande_id>
+        <anforande_nummer>226</anforande_nummer>
+        <talare>Arman Teimouri (L)</talare>
+        <parti>L</parti>
+        <anforandetext></anforandetext>
+        <intressent_id>0322827326923</intressent_id>
+        <rel_dok_id>H701NU3</rel_dok_id>
+        <replik>N</replik>
+        <systemdatum>2019-12-12 00:13:32</systemdatum>
+        <systemnyckel>475828</systemnyckel>
+        <anforande_url_xml>http://data.riksdagen.se/anforande/H70949-226</anforande_url_xml>
+        <anforande_url_html>http://data.riksdagen.se/anforande/H70949-226/html</anforande_url_html>
+        <protokoll_url_www>
+            http://www.riksdagen.se/sv/Dokument-Lagar/Kammaren/Protokoll/Riksdagens-snabbprotokoll_H70949/#anf226
+        </protokoll_url_www>
+    </anforande>
+    <anforande>
+        <dok_hangar_id>5049872</dok_hangar_id>
+        <dok_id>H70949</dok_id>
+        <dok_titel>Protokoll 2019/20:49 Onsdagen den 11 december</dok_titel>
+        <dok_rm>2019/20</dok_rm>
+        <dok_nummer>49</dok_nummer>
+        <dok_datum>2019-12-11</dok_datum>
+        <avsnittsrubrik>SPEECH_2</avsnittsrubrik>
+        <underrubrik></underrubrik>
+        <kammaraktivitet>ärendedebatt</kammaraktivitet>
+        <anforande_id>e0a9afb5-6b1c-ea11-912c-901b0e9b71a8</anforande_id>
+        <anforande_nummer>225</anforande_nummer>
+        <talare>Rickard Nordin (C)</talare>
+        <parti>C</parti>
+        <anforandetext></anforandetext>
+        <intressent_id>123</intressent_id>
+        <rel_dok_id>H701NU3</rel_dok_id>
+        <replik>Y</replik>
+        <systemdatum>2019-12-12 00:13:32</systemdatum>
+        <systemnyckel>475827</systemnyckel>
+        <anforande_url_xml>http://data.riksdagen.se/anforande/H70949-225</anforande_url_xml>
+        <anforande_url_html>http://data.riksdagen.se/anforande/H70949-225/html</anforande_url_html>
+        <protokoll_url_www>
+            http://www.riksdagen.se/sv/Dokument-Lagar/Kammaren/Protokoll/Riksdagens-snabbprotokoll_H70949/#anf225
+        </protokoll_url_www>
+    </anforande>
+</anforandelista>

@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "8082:8080"
+    environment:
+      API_URL: "http://localhost:8080/camel/api-doc"
+
+  parliament-challenge:
+    image: kgrdocker/parliament-challenge
+    container_name: "parliament-challenge"
+    ports:
+      - "8080:8080"
