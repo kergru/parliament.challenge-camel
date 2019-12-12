@@ -59,8 +59,7 @@ class MergerRestEndpoints extends RouteBuilder {
                 .enrich("direct:speaker", new CreateSpeechAggregationStrategy())
                 .end();
 
-        from("direct:speaker").
-                routeId("parliament-api-speaker")
+        from("direct:speaker").routeId("parliament-api-speaker")
                 .description("Get speaker from Parliament API")
                 .setHeader("intressent_id")
                 .xpath("/anforande/intressent_id/text()")
