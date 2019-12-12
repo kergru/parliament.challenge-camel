@@ -48,12 +48,12 @@ class MergerRestEndpoints extends RouteBuilder {
                 .description("Split speeches response and enrich each with speaker")
                 .choice()
                 .when().xpath("/anforandelista/@antal != '0'")
-                .to("direct:split")
+                .to("direct:split-enrich-merge")
                 .otherwise()
                 .setBody(constant(SpeechesList.EMPTY)).setHeader(CONTENT_TYPE, constant(APPLICATION_JSON))
                 .end();
 
-        from("direct:split")
+        from("direct:split-enrich-merge")
                 .split(xpath("/anforandelista/anforande"), new CreateSpeechesListAggregationStrategy())
                 .parallelProcessing()
                 .enrich("direct:speaker", new CreateSpeechAggregationStrategy())
