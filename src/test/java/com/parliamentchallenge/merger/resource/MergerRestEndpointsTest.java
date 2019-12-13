@@ -34,7 +34,7 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
         super.setUp();
 
         Resource anforandelista = resourceLoader.getResource("classpath:mocks/anforandelista.xml");
-        AdviceWithRouteBuilder.adviceWith(this.context, "parliament-api-speeches", a -> {
+        AdviceWithRouteBuilder.adviceWith(this.context, "direct:speeches", a -> {
             a.interceptSendToEndpoint("http://data.riksdagen.se/anforandelista/?bridgeEndpoint=true")
                     .skipSendToOriginalEndpoint()
                     .to("mock:anforandelista").process(exchange -> {
@@ -43,7 +43,7 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
         });
 
         Resource personlista = resourceLoader.getResource("classpath:mocks/personlista.xml");
-        AdviceWithRouteBuilder.adviceWith(this.context, "parliament-api-speaker", a -> {
+        AdviceWithRouteBuilder.adviceWith(this.context, "direct:speaker", a -> {
             a.interceptSendToEndpoint("http://data.riksdagen.se/personlista/?bridgeEndpoint=true")
                     .skipSendToOriginalEndpoint()
                     .to("mock:personlista").process(exchange -> {

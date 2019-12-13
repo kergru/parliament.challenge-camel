@@ -33,9 +33,10 @@ class MergerRestEndpoints extends RouteBuilder {
                 .param().name("parliamentarySession").type(RestParamType.query).description("Search speeches by parliament session").required(false).dataType("string in format yyyy/MM").endParam()
                 .responseMessage().code(200).responseModel(SpeechesList.class).endResponseMessage() //OK
                 .description("Get speeches and speaker from Parliament API and merged it to single document")
+                .route().routeId("speeches-api-get")
                 .to("direct:speeches");
 
-        from("direct:speeches").routeId("parliament-api-speeches")
+        from("direct:speeches").routeId("direct:speeches")
                 .description("Get speeches from Parliament API")
                 .process(exchange -> {
                     translateQueryParams(exchange);
@@ -44,7 +45,7 @@ class MergerRestEndpoints extends RouteBuilder {
                 .convertBodyTo(String.class)
                 .to("direct:speeches-splitter");
 
-        from("direct:speeches-splitter")
+        from("direct:speeches-splitter").routeId("direct:speeches-splitter")
                 .description("Split speeches response and enrich each with speaker")
                 .choice()
                 .when().xpath("/anforandelista/@antal != '0'")
@@ -53,13 +54,15 @@ class MergerRestEndpoints extends RouteBuilder {
                 .setBody(constant(SpeechesList.EMPTY)).setHeader(CONTENT_TYPE, constant(APPLICATION_JSON))
                 .end();
 
-        from("direct:split-enrich-merge")
+        from("direct:split-enrich-merge").routeId("direct:split-enrich-merge")
                 .split(xpath("/anforandelista/anforande"), new CreateSpeechesListAggregationStrategy())
                 .parallelProcessing()
-                .enrich("direct:speaker", new CreateSpeechAggregationStrategy())
-                .end();
+                .to("direct:enrich");
 
-        from("direct:speaker").routeId("parliament-api-speaker")
+        from("direct:enrich").routeId("direct:enrich")
+                .enrich("direct:speaker", new CreateSpeechAggregationStrategy());
+
+        from("direct:speaker").routeId("direct:speaker")
                 .description("Get speaker from Parliament API")
                 .setHeader("intressent_id")
                 .xpath("/anforande/intressent_id/text()")
