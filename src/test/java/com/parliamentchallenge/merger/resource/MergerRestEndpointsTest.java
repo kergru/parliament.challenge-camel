@@ -2,8 +2,6 @@ package com.parliamentchallenge.merger.resource;
 
 import com.parliamentchallenge.merger.resource.model.SpeechesList;
 import org.apache.camel.Exchange;
-import org.apache.camel.Produce;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -21,11 +19,8 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
 
     private FileSystemResourceLoader resourceLoader = new FileSystemResourceLoader();
 
-    @Produce("direct:speeches")
-    protected ProducerTemplate template;
-
     @Override
-    protected RoutesBuilder createRouteBuilder() throws Exception {
+    protected RoutesBuilder createRouteBuilder() {
         return new MergerRestEndpoints();
     }
 
@@ -64,7 +59,7 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
         mockEndpointPersonlista.setExpectedCount(2);
 
         //when
-        template.send(exchange);
+        template.send("direct:speeches", exchange);
 
         //then
         SpeechesList speeches = exchange.getIn().getBody(SpeechesList.class);

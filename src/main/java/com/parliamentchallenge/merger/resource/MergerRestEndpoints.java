@@ -38,9 +38,7 @@ class MergerRestEndpoints extends RouteBuilder {
 
         from("direct:speeches").routeId("direct:speeches")
                 .description("Get speeches from Parliament API")
-                .process(exchange -> {
-                    translateQueryParams(exchange);
-                })
+                .process(this::translateQueryParams)
                 .to("http://data.riksdagen.se/anforandelista/?bridgeEndpoint=true")
                 .convertBodyTo(String.class)
                 .to("direct:speeches-splitter");
@@ -73,7 +71,7 @@ class MergerRestEndpoints extends RouteBuilder {
     }
 
     private void translateQueryParams(Exchange exchange) {
-        StringBuffer query = new StringBuffer("sz=10");
+        StringBuilder query = new StringBuilder("sz=10");
         Object party = exchange.getIn().removeHeader("party");
         if (party != null) {
             query.append("&parti=" + party);
