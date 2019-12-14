@@ -10,7 +10,7 @@ services:
       API_URL: "http://localhost:8080/camel/api-doc"
 
   parliament-challenge:
-    image: kgrdocker/parliament-challenge
-    container_name: "parliament-challenge"
+    image: kgrdocker/parliament-challenge-camel
+    container_name: "parliament-challenge-camel"
     ports:
       - "8080:8080"
