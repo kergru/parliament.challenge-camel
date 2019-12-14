@@ -5,12 +5,12 @@ import com.parliamentchallenge.merger.resource.model.SpeechesList;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestParamType;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_QUERY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Endpoint definitions for Speeches-Speaker-Merger API
@@ -23,11 +23,12 @@ class MergerRestEndpoints extends RouteBuilder {
     public void configure() {
 
         rest().description("Speeches-Speaker-Merger API")
-                .id("api-speeches").skipBindingOnErrorCode(true)
+                .id("api-speeches")
+                .skipBindingOnErrorCode(true)
 
                 /*REST-API REQUESTS:*/
                 .get("/speeches")
-                .produces(MediaType.APPLICATION_JSON_VALUE)
+                .produces(APPLICATION_JSON_VALUE)
                 .param().name("party").type(RestParamType.query).description("Search speeches by party.").required(false).dataType("string").endParam()
                 .param().name("memberId").type(RestParamType.query).description("Search speeches by speaker").required(false).dataType("string").endParam()
                 .param().name("parliamentarySession").type(RestParamType.query).description("Search speeches by parliament session").required(false).dataType("string in format yyyy/MM").endParam()
@@ -36,11 +37,17 @@ class MergerRestEndpoints extends RouteBuilder {
                 .to("direct:speeches")
 
                 .get("/speeches/{speechid}")
-                .produces(MediaType.APPLICATION_JSON_VALUE)
+                .produces(APPLICATION_JSON_VALUE)
                 .param().name("speechid").type(RestParamType.path).description("Speeches id.").required(false).dataType("string").endParam()
                 .responseMessage().code(200).responseModel(Speech.class).endResponseMessage() //OK
                 .description("Get single speech and speaker from Parliament API and merged it to single document")
                 .to("direct:speech");
+
+        onException(Exception.class)
+                .handled(true)
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setHeader(CONTENT_TYPE, constant("application/json"))
+                .setBody(simple("{\"error\":\"${exception.  message}\"}"));
 
         from("direct:speeches").routeId("direct:speeches")
                 .description("Get speeches from Parliament API")
