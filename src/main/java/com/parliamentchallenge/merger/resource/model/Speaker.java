@@ -15,17 +15,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class Speaker {
 
     @ApiModelProperty("Lastname of speaker")
-    String name;
+    private String name;
 
     @ApiModelProperty("Speakers' political affiliation")
-    String politicalAffiliation;
+    private String politicalAffiliation;
 
     @ApiModelProperty("Speakers' official email address")
-    String email;
+    private String email;
 
     @ApiModelProperty("Speakers' constituency")
-    String constituency;
+    private String constituency;
 
     @ApiModelProperty("Image of speaker")
-    String imageUrl;
+    private String imageUrl;
 }

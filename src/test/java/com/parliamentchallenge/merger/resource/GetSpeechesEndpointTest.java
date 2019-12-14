@@ -15,7 +15,7 @@ import org.springframework.core.io.Resource;
 /**
  * Real unit test, no spring context required
  */
-public class MergerRestEndpointsTest extends CamelTestSupport {
+public class GetSpeechesEndpointTest extends CamelTestSupport {
 
     private FileSystemResourceLoader resourceLoader = new FileSystemResourceLoader();
 
@@ -30,7 +30,7 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
 
         Resource anforandelista = resourceLoader.getResource("classpath:mocks/anforandelista.xml");
         AdviceWithRouteBuilder.adviceWith(this.context, "direct:speeches", a -> {
-            a.interceptSendToEndpoint("http://data.riksdagen.se/anforandelista/?bridgeEndpoint=true")
+            a.interceptSendToEndpoint("http://data.riksdagen.se/anforandelista/*")
                     .skipSendToOriginalEndpoint()
                     .to("mock:anforandelista").process(exchange -> {
                 exchange.getOut().setBody(anforandelista.getInputStream());
@@ -39,7 +39,7 @@ public class MergerRestEndpointsTest extends CamelTestSupport {
 
         Resource personlista = resourceLoader.getResource("classpath:mocks/personlista.xml");
         AdviceWithRouteBuilder.adviceWith(this.context, "direct:speaker", a -> {
-            a.interceptSendToEndpoint("http://data.riksdagen.se/personlista/?bridgeEndpoint=true")
+            a.interceptSendToEndpoint("http://data.riksdagen.se/personlista/*")
                     .skipSendToOriginalEndpoint()
                     .to("mock:personlista").process(exchange -> {
                 exchange.getOut().setBody(personlista.getInputStream());

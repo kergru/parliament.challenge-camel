@@ -49,7 +49,10 @@ public class SpeechXmlParser {
     }
 
     private String getSpeechId(Document xmlSpeech) throws XPathExpressionException {
-        XPathExpression expr = xpath.compile("/anforande/anforande_id/text()");
-        return evaluate(xmlSpeech, expr);
+        XPathExpression expr = xpath.compile("/anforande/dok_id/text()");
+        String dokId = evaluate(xmlSpeech, expr);
+        XPathExpression expr2 = xpath.compile("/anforande/anforande_nummer/text()");
+        String anforandeNummer = evaluate(xmlSpeech, expr2);
+        return dokId + "-" + anforandeNummer;
     }
 }

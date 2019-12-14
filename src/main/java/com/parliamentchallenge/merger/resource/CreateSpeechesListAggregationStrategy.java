@@ -8,7 +8,7 @@ import org.apache.camel.processor.aggregate.AbstractListAggregationStrategy;
 import java.util.List;
 
 import static org.apache.camel.Exchange.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Aggregate all speeches and wrap it in {@link SpeechesList}
@@ -20,7 +20,7 @@ public class CreateSpeechesListAggregationStrategy extends AbstractListAggregati
         super.onCompletion(exchange);
         List<Speech> body = (List<Speech>) exchange.getIn().getBody();
         exchange.getIn().setBody(new SpeechesList(body));
-        exchange.getIn().setHeader(CONTENT_TYPE, APPLICATION_JSON);
+        exchange.getIn().setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE);
     }
 
     @Override
