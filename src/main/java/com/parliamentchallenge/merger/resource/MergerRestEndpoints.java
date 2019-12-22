@@ -73,7 +73,6 @@ class MergerRestEndpoints extends RouteBuilder {
 
         from("direct:split-enrich-merge").routeId("direct:split-enrich-merge")
                 .split(xpath("/anforandelista/anforande"), new CreateSpeechesListAggregationStrategy())
-                .parallelProcessing()
                 .to("direct:enrich");
 
         from("direct:enrich").routeId("direct:enrich")
@@ -83,10 +82,13 @@ class MergerRestEndpoints extends RouteBuilder {
                 .description("Get speaker from Parliament API")
                 .setHeader("intressent_id")
                 .xpath("/anforande/intressent_id/text()")
-                .setHeader(Exchange.HTTP_QUERY, simple("sz=1&iid=${header.intressent_id}"))
-                .setBody(simple(null))
-                .to("http://data.riksdagen.se/personlista/?bridgeEndpoint=true")
-                .convertBodyTo(String.class);
+                .setBody(constant(null))
+                .choice()
+                .when(header("intressent_id").isNotEqualTo(""))
+                .toD("http://data.riksdagen.se/person/${header.intressent_id}/?bridgeEndpoint=true")
+                .convertBodyTo(String.class)
+                .otherwise()
+                .end();
     }
 
     private void translateQueryParams(Exchange exchange) {

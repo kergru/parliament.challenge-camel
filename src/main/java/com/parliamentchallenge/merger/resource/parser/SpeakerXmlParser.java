@@ -1,6 +1,7 @@
 package com.parliamentchallenge.merger.resource.parser;
 
 import com.parliamentchallenge.merger.resource.model.Speaker;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,6 +20,9 @@ public class SpeakerXmlParser {
     private XPath xpath = XPathFactory.newInstance().newXPath();
 
     public Speaker parseToSpeaker(String speakerXml) throws Exception {
+        if (StringUtils.isEmpty(speakerXml)) {
+            return new Speaker();
+        }
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = builderFactory.newDocumentBuilder();
         Document xmlSpeaker = builder.parse(toInputStream(speakerXml));

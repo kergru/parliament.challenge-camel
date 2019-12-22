@@ -40,7 +40,7 @@ public class GetSpeechEndpointTest extends CamelTestSupport {
 
         Resource personlista = resourceLoader.getResource("classpath:mocks/personlista.xml");
         AdviceWithRouteBuilder.adviceWith(this.context, "direct:speaker", a -> {
-            a.interceptSendToEndpoint("http://data.riksdagen.se/personlista/*")
+            a.interceptSendToEndpoint("http://data.riksdagen.se/person/*")
                     .skipSendToOriginalEndpoint()
                     .to("mock:personlista").process(exchange -> exchange.getOut().setBody(personlista.getInputStream()))
                     .when(simple("${header.iid} == '123'"));
